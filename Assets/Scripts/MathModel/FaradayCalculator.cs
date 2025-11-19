@@ -62,7 +62,7 @@ public static class FaradayCalculator
         float phiRad = hornAngleDeg * Mathf.Deg2Rad;
 
         // Расчёт сигнала с учётом эллиптической поляризации
-        // U ∝ Aₓ² * cos²(φ − θ) + Aᵧ² * sin²(φ − θ + δ)
+        // U = A_x**2 * cos**2(φ − θ) + A_y**2 * sin**2(φ − θ + δ)
         float signal = A_x * A_x * Mathf.Cos(phiRad - thetaRad) * Mathf.Cos(phiRad - thetaRad) +
                        A_y * A_y * Mathf.Sin(phiRad - thetaRad + delta) * Mathf.Sin(phiRad - thetaRad + delta);
 
