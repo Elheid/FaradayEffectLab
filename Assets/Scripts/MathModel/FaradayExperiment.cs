@@ -1,35 +1,35 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using UnityEngine.UI;
 
 public class FaradayExperiment : MonoBehaviour
 {
-    public FaradayParams parameters;  // параметры для расчётов
-    public Slider currentSlider;      // ползунок для регулировки тока
+    public FaradayParams parameters;  // РїР°СЂР°РјРµС‚СЂС‹ РґР»СЏ СЂР°СЃС‡С‘С‚РѕРІ
+    public Slider currentSlider;      // РїРѕР»Р·СѓРЅРѕРє РґР»СЏ СЂРµРіСѓР»РёСЂРѕРІРєРё С‚РѕРєР°
 
     [Range(0f, 360f)]
-    public float hornAngleDeg = 0f;  // угол поворота рупора
+    public float hornAngleDeg = 0f;  // СѓРіРѕР» РїРѕРІРѕСЂРѕС‚Р° СЂСѓРїРѕСЂР°
 
-    public float thetaDeg;      // угол поворота в градусах
-    public float signalLevel;   // показания усилителя
+    public float thetaDeg;      // СѓРіРѕР» РїРѕРІРѕСЂРѕС‚Р° РІ РіСЂР°РґСѓСЃР°С…
+    public float signalLevel;   // РїРѕРєР°Р·Р°РЅРёСЏ СѓСЃРёР»РёС‚РµР»СЏ
 
     void Update()
     {
-        float currentA = currentSlider.value; // берём значение тока с ползунка
-        float H0 = FaradayCalculator.ComputeH0(parameters, currentA); // вычисляем магнитное поле
+        float currentA = currentSlider.value; // Р±РµСЂС‘Рј Р·РЅР°С‡РµРЅРёРµ С‚РѕРєР° СЃ РїРѕР»Р·СѓРЅРєР°
+        float H0 = FaradayCalculator.ComputeH0(parameters, currentA); // РІС‹С‡РёСЃР»СЏРµРј РјР°РіРЅРёС‚РЅРѕРµ РїРѕР»Рµ
 
-        // Вычисляем угол поворота в радианах и преобразуем в градусы
+        // Р’С‹С‡РёСЃР»СЏРµРј СѓРіРѕР» РїРѕРІРѕСЂРѕС‚Р° РІ СЂР°РґРёР°РЅР°С… Рё РїСЂРµРѕР±СЂР°Р·СѓРµРј РІ РіСЂР°РґСѓСЃС‹
         float thetaRad = FaradayCalculator.ComputeThetaRad(parameters, H0);
         thetaDeg = thetaRad * Mathf.Rad2Deg;
 
-        // Считаем сигнал усилителя
+        // РЎС‡РёС‚Р°РµРј СЃРёРіРЅР°Р» СѓСЃРёР»РёС‚РµР»СЏ
         signalLevel = FaradayCalculator.ComputeSignal(thetaRad, hornAngleDeg);
 
-        // Выводим для отладки
+        // Р’С‹РІРѕРґРёРј РґР»СЏ РѕС‚Р»Р°РґРєРё
         Debug.Log($"Signal Level: {signalLevel}");
         Debug.Log($"Theta Angle: {thetaDeg}");
     }
 
-    // Генерация поляризационной кривой для текущего тока
+    // Р“РµРЅРµСЂР°С†РёСЏ РїРѕР»СЏСЂРёР·Р°С†РёРѕРЅРЅРѕР№ РєСЂРёРІРѕР№ РґР»СЏ С‚РµРєСѓС‰РµРіРѕ С‚РѕРєР°
     public float[] GeneratePolarizationCurve(int points = 24)
     {
         float[] values = new float[points];
