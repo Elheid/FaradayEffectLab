@@ -11,6 +11,7 @@ public class CameraController : MonoBehaviour
     private Vector2 lookInput;
     private float yaw;
     private float pitch;
+    public bool isLocked = false;
 
     void Awake()
     {
@@ -46,10 +47,30 @@ public class CameraController : MonoBehaviour
         //transform.position += move * moveSpeed * Time.deltaTime;
 
         // rotate
+
+        if (isLocked) return;
+
+
         yaw += lookInput.x * lookSpeed;
         pitch -= lookInput.y * lookSpeed;
         pitch = Mathf.Clamp(pitch, -80f, 80f);
 
         transform.rotation = Quaternion.Euler(pitch, yaw, 0f);
     }
+
+    public void SetLock(bool locked)
+    {
+        isLocked = locked;
+        if (locked)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+    }
+
 }
