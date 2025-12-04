@@ -18,4 +18,8 @@ public class FaradayParamsAlt
     // Установка нуля
     public int zeroSettingSwitch = 0;    // p_ун - переключатель (0/1)
     public float zeroSettingLevel = 0.1f; // n_ун - уровень (0.04...0.15)
+
+    // Новые параметры
+    public int reverseMode = 0; // 0 = прямое, 1 = обратное
+    public float deltaADb = 15f; // разница ослаблений (10…20 дБ)
 }

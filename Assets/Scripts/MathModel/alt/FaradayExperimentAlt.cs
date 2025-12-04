@@ -21,11 +21,9 @@ public class FaradayExperimentAlt : MonoBehaviour
         
         // 2) Вычисляем сигнал на приемнике
         signalLevel = FaradayCalculatorAlt.ComputeSignal(
-            hornAngleDeg, betaAngle,
-            parameters.attenuationDb, parameters.receiverGain,
-            parameters.zeroSettingSwitch, parameters.zeroSettingLevel,
-            parameters.generatorSwitch, parameters.receiverSwitch,
-            parameters.multiplication
+        hornAngleDeg,
+        betaAngle,
+        parameters
         );
 
         // Выводим для отладки
@@ -43,10 +41,9 @@ public class FaradayExperimentAlt : MonoBehaviour
         {
             float angle = i * (360f / points);
             values[i] = FaradayCalculatorAlt.ComputeSignal(
-                angle, beta, parameters.attenuationDb, parameters.receiverGain,
-                parameters.zeroSettingSwitch, parameters.zeroSettingLevel,
-                parameters.generatorSwitch, parameters.receiverSwitch,
-                parameters.multiplication
+            angle,
+            beta,
+            parameters
             );
         }
         return values;
