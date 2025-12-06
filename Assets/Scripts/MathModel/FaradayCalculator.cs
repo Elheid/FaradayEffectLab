@@ -68,5 +68,4 @@ public static class FaradayCalculator
 
         return u0 * signal;
     }
-
 }

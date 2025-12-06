@@ -18,3 +18,4 @@ public class FaradayParams
     public float coilLength = 0.14f;    // длина катушки (м)
     public float coilD = 0.03f;         // диаметр катушки (м)  
 }
+
