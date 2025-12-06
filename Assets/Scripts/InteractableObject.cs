@@ -1,31 +1,90 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Renderer))]
 public class InteractableObject : MonoBehaviour
 {
-    // Ссылка на контурный материал (см. ниже)
+    [Header("Материал подсветки")]
     public Material outlineMaterial;
-    private Material originalMaterial;
-    private Renderer rend;
+
+    private Renderer[] renderers;
+    private Material[][] originalMaterials; // сохраняем материалы каждого рендера
 
     private void Awake()
     {
-        rend = GetComponent<Renderer>();
-        originalMaterial = rend.material; // Сохраняем оригинальный материал
+        // находим все рендереры в объекте и дочерних объектах
+        renderers = GetComponentsInChildren<Renderer>();
+        if (renderers.Length == 0)
+        {
+            Debug.LogError("No Renderer found for InteractableObject on " + gameObject.name);
+            return;
+        }
+
+        // сохраняем оригинальные материалы
+        originalMaterials = new Material[renderers.Length][];
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            originalMaterials[i] = renderers[i].materials;
+        }
     }
 
-
-    // Публичный метод для вызова "приближения"
     public void BringToFront()
     {
         InteractionsManager.Instance.FocusOnObject(this);
     }
 
-    // Включить/выключить подсветку
     public void SetHighlighted(bool highlighted)
     {
-        //Debug.Log(highlighted ? "Highlighted!" : "Normal");
-        rend.material = highlighted ? outlineMaterial : originalMaterial;
-    }
+        if (renderers == null || renderers.Length == 0) return;
 
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            if (highlighted)
+            {
+                // заменяем все материалы на outlineMaterial
+                Material[] mats = new Material[renderers[i].materials.Length];
+                for (int j = 0; j < mats.Length; j++)
+                    mats[j] = outlineMaterial;
+
+                renderers[i].materials = mats;
+            }
+            else
+            {
+                // возвращаем оригинальные материалы
+                renderers[i].materials = originalMaterials[i];
+            }
+        }
+    }
 }
+
+
+
+//using UnityEngine;
+
+//[RequireComponent(typeof(Renderer))]
+//public class InteractableObject : MonoBehaviour
+//{
+//    // Ссылка на контурный материал (см. ниже)
+//    public Material outlineMaterial;
+//    private Material originalMaterial;
+//    private Renderer rend;
+
+//    private void Awake()
+//    {
+//        rend = GetComponent<Renderer>();
+//        originalMaterial = rend.material; // Сохраняем оригинальный материал
+//    }
+
+
+//    // Публичный метод для вызова "приближения"
+//    public void BringToFront()
+//    {
+//        InteractionsManager.Instance.FocusOnObject(this);
+//    }
+
+//    // Включить/выключить подсветку
+//    public void SetHighlighted(bool highlighted)
+//    {
+//        //Debug.Log(highlighted ? "Highlighted!" : "Normal");
+//        rend.material = highlighted ? outlineMaterial : originalMaterial;
+//    }
+
+//}

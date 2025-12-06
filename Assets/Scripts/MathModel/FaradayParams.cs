@@ -4,7 +4,7 @@ using System;
 public class FaradayParams
 {
     // Волна / частоты
-    public float frequencyMHz = 9000f; // частота (в МГц)
+    public float frequencyMHz = 50f;//9000f; // частота (в МГц)
     public float epsilonR = 10f;       // относительная диэлектрическая проницаемость феррита
 
     // Феррит

@@ -61,35 +61,23 @@ public class InteractionsManager : MonoBehaviour
         RaycastHit hit;
 
         InteractableObject newHovered = null;
-        if (Physics.Raycast(ray, out hit, 100f))
+        if (Physics.Raycast(mainCamera.ScreenPointToRay(inputActions.Player.PointerPosition.ReadValue<Vector2>()), out hit, 100f))
         {
-            newHovered = hit.collider.GetComponent<InteractableObject>();
+            // ищем скрипт на самом коллайдере или на родителях
+            newHovered = hit.collider.GetComponentInParent<InteractableObject>();
         }
         // Если под указателем другой объект — переключаем подсветку
         if (newHovered != hoveredObject)
         {
-            if (hoveredObject != null)
-            {
-                hoveredObject.SetHighlighted(false);
-            }
-
+            if (hoveredObject != null) hoveredObject.SetHighlighted(false);
             hoveredObject = newHovered;
-
-            if (hoveredObject != null)
-            {
-                hoveredObject.SetHighlighted(true);
-            }
+            if (hoveredObject != null) hoveredObject.SetHighlighted(true);
         }
 
         // Если есть объект под курсором — обработать клик
-        if (newHovered != null)
+        if (newHovered != null && inputActions.Player.LeftClick.WasPressedThisFrame())
         {
-            if (inputActions.Player.LeftClick.WasPressedThisFrame()) // замените на RightClick, если у вас ПКМ в другом действии
-            {
-                // Начинаем фокусировку
-                FocusOnObject(newHovered);
-            }
-            return;
+            FocusOnObject(newHovered);
         }
 
     }
@@ -187,7 +175,7 @@ public class InteractionsManager : MonoBehaviour
         // оставляя X и Z как у объекта
         obj.transform.rotation = Quaternion.Euler(
             originalEuler.x,        // не трогаем наклон объекта
-            lookRot.eulerAngles.y,  // только поворот вокруг Y
+            lookRot.eulerAngles.y + originalEuler.y,  // только поворот вокруг Y
             originalEuler.z         // оставляем "наклон" объекта прежним
         );
 

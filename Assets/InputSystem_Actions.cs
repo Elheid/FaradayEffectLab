@@ -1157,6 +1157,134 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Faraday"",
+            ""id"": ""46057097-15ab-466f-894e-26ed507789c8"",
+            ""actions"": [
+                {
+                    ""name"": ""IncreaseCurrent"",
+                    ""type"": ""Button"",
+                    ""id"": ""7a1992ae-7e9c-4da8-9388-b22d10f4e24e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DecreaseCurrent"",
+                    ""type"": ""Button"",
+                    ""id"": ""0076fe60-3e2f-414a-8502-21d1b191822c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RotateRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""d688188f-52f9-4be0-9d0e-b333ff420263"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RotateLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""eec8f3ee-d3bf-444a-87f4-e0091179ef9c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Reset"",
+                    ""type"": ""Button"",
+                    ""id"": ""052538a6-1991-47cf-a411-1b6801bbf5a1"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleUI"",
+                    ""type"": ""Button"",
+                    ""id"": ""ac7f558b-4a1d-456f-8b5b-dade175da4bb"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""8b5113b5-3bd0-4730-85c7-2dcb372668f6"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""IncreaseCurrent"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""275b4d9b-3af1-4d84-a903-65ef95e205e5"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DecreaseCurrent"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""275a8dc4-b815-4831-a6d1-0d8ac379ceed"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""39b9baba-430a-407c-a912-c4c7ec35b20d"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""186babd7-2702-47f3-9c2d-a670733c4b7c"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reset"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9c057367-2ea4-43bb-803d-8adc2911d430"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleUI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -1249,12 +1377,21 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_UI_ScrollWheel = m_UI.FindAction("ScrollWheel", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
+        // Faraday
+        m_Faraday = asset.FindActionMap("Faraday", throwIfNotFound: true);
+        m_Faraday_IncreaseCurrent = m_Faraday.FindAction("IncreaseCurrent", throwIfNotFound: true);
+        m_Faraday_DecreaseCurrent = m_Faraday.FindAction("DecreaseCurrent", throwIfNotFound: true);
+        m_Faraday_RotateRight = m_Faraday.FindAction("RotateRight", throwIfNotFound: true);
+        m_Faraday_RotateLeft = m_Faraday.FindAction("RotateLeft", throwIfNotFound: true);
+        m_Faraday_Reset = m_Faraday.FindAction("Reset", throwIfNotFound: true);
+        m_Faraday_ToggleUI = m_Faraday.FindAction("ToggleUI", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
     {
         UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, InputSystem_Actions.Player.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, InputSystem_Actions.UI.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Faraday.enabled, "This will cause a leak and performance issues, InputSystem_Actions.Faraday.Disable() has not been called.");
     }
 
     /// <summary>
@@ -1749,6 +1886,157 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="UIActions" /> instance referencing this action map.
     /// </summary>
     public UIActions @UI => new UIActions(this);
+
+    // Faraday
+    private readonly InputActionMap m_Faraday;
+    private List<IFaradayActions> m_FaradayActionsCallbackInterfaces = new List<IFaradayActions>();
+    private readonly InputAction m_Faraday_IncreaseCurrent;
+    private readonly InputAction m_Faraday_DecreaseCurrent;
+    private readonly InputAction m_Faraday_RotateRight;
+    private readonly InputAction m_Faraday_RotateLeft;
+    private readonly InputAction m_Faraday_Reset;
+    private readonly InputAction m_Faraday_ToggleUI;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Faraday".
+    /// </summary>
+    public struct FaradayActions
+    {
+        private @InputSystem_Actions m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public FaradayActions(@InputSystem_Actions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "Faraday/IncreaseCurrent".
+        /// </summary>
+        public InputAction @IncreaseCurrent => m_Wrapper.m_Faraday_IncreaseCurrent;
+        /// <summary>
+        /// Provides access to the underlying input action "Faraday/DecreaseCurrent".
+        /// </summary>
+        public InputAction @DecreaseCurrent => m_Wrapper.m_Faraday_DecreaseCurrent;
+        /// <summary>
+        /// Provides access to the underlying input action "Faraday/RotateRight".
+        /// </summary>
+        public InputAction @RotateRight => m_Wrapper.m_Faraday_RotateRight;
+        /// <summary>
+        /// Provides access to the underlying input action "Faraday/RotateLeft".
+        /// </summary>
+        public InputAction @RotateLeft => m_Wrapper.m_Faraday_RotateLeft;
+        /// <summary>
+        /// Provides access to the underlying input action "Faraday/Reset".
+        /// </summary>
+        public InputAction @Reset => m_Wrapper.m_Faraday_Reset;
+        /// <summary>
+        /// Provides access to the underlying input action "Faraday/ToggleUI".
+        /// </summary>
+        public InputAction @ToggleUI => m_Wrapper.m_Faraday_ToggleUI;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_Faraday; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="FaradayActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(FaradayActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="FaradayActions" />
+        public void AddCallbacks(IFaradayActions instance)
+        {
+            if (instance == null || m_Wrapper.m_FaradayActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_FaradayActionsCallbackInterfaces.Add(instance);
+            @IncreaseCurrent.started += instance.OnIncreaseCurrent;
+            @IncreaseCurrent.performed += instance.OnIncreaseCurrent;
+            @IncreaseCurrent.canceled += instance.OnIncreaseCurrent;
+            @DecreaseCurrent.started += instance.OnDecreaseCurrent;
+            @DecreaseCurrent.performed += instance.OnDecreaseCurrent;
+            @DecreaseCurrent.canceled += instance.OnDecreaseCurrent;
+            @RotateRight.started += instance.OnRotateRight;
+            @RotateRight.performed += instance.OnRotateRight;
+            @RotateRight.canceled += instance.OnRotateRight;
+            @RotateLeft.started += instance.OnRotateLeft;
+            @RotateLeft.performed += instance.OnRotateLeft;
+            @RotateLeft.canceled += instance.OnRotateLeft;
+            @Reset.started += instance.OnReset;
+            @Reset.performed += instance.OnReset;
+            @Reset.canceled += instance.OnReset;
+            @ToggleUI.started += instance.OnToggleUI;
+            @ToggleUI.performed += instance.OnToggleUI;
+            @ToggleUI.canceled += instance.OnToggleUI;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="FaradayActions" />
+        private void UnregisterCallbacks(IFaradayActions instance)
+        {
+            @IncreaseCurrent.started -= instance.OnIncreaseCurrent;
+            @IncreaseCurrent.performed -= instance.OnIncreaseCurrent;
+            @IncreaseCurrent.canceled -= instance.OnIncreaseCurrent;
+            @DecreaseCurrent.started -= instance.OnDecreaseCurrent;
+            @DecreaseCurrent.performed -= instance.OnDecreaseCurrent;
+            @DecreaseCurrent.canceled -= instance.OnDecreaseCurrent;
+            @RotateRight.started -= instance.OnRotateRight;
+            @RotateRight.performed -= instance.OnRotateRight;
+            @RotateRight.canceled -= instance.OnRotateRight;
+            @RotateLeft.started -= instance.OnRotateLeft;
+            @RotateLeft.performed -= instance.OnRotateLeft;
+            @RotateLeft.canceled -= instance.OnRotateLeft;
+            @Reset.started -= instance.OnReset;
+            @Reset.performed -= instance.OnReset;
+            @Reset.canceled -= instance.OnReset;
+            @ToggleUI.started -= instance.OnToggleUI;
+            @ToggleUI.performed -= instance.OnToggleUI;
+            @ToggleUI.canceled -= instance.OnToggleUI;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="FaradayActions.UnregisterCallbacks(IFaradayActions)" />.
+        /// </summary>
+        /// <seealso cref="FaradayActions.UnregisterCallbacks(IFaradayActions)" />
+        public void RemoveCallbacks(IFaradayActions instance)
+        {
+            if (m_Wrapper.m_FaradayActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="FaradayActions.AddCallbacks(IFaradayActions)" />
+        /// <seealso cref="FaradayActions.RemoveCallbacks(IFaradayActions)" />
+        /// <seealso cref="FaradayActions.UnregisterCallbacks(IFaradayActions)" />
+        public void SetCallbacks(IFaradayActions instance)
+        {
+            foreach (var item in m_Wrapper.m_FaradayActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_FaradayActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="FaradayActions" /> instance referencing this action map.
+    /// </summary>
+    public FaradayActions @Faraday => new FaradayActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     /// <summary>
     /// Provides access to the input control scheme.
@@ -1990,5 +2278,55 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Faraday" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="FaradayActions.AddCallbacks(IFaradayActions)" />
+    /// <seealso cref="FaradayActions.RemoveCallbacks(IFaradayActions)" />
+    public interface IFaradayActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "IncreaseCurrent" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnIncreaseCurrent(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "DecreaseCurrent" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDecreaseCurrent(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "RotateRight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotateRight(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "RotateLeft" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotateLeft(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Reset" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnReset(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ToggleUI" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnToggleUI(InputAction.CallbackContext context);
     }
 }

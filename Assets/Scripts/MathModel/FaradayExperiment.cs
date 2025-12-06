@@ -25,8 +25,9 @@ public class FaradayExperiment : MonoBehaviour
         signalLevel = FaradayCalculator.ComputeSignal(thetaRad, hornAngleDeg);
 
         // Выводим для отладки
-        Debug.Log($"Signal Level: {signalLevel}");
-        Debug.Log($"Theta Angle: {thetaDeg}");
+
+        //Debug.Log($"Signal Level: {signalLevel}");
+        //Debug.Log($"Theta Angle: {thetaDeg}");
     }
 
     // Генерация поляризационной кривой для текущего тока
