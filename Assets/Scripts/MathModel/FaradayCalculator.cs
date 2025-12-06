@@ -11,11 +11,11 @@ public static class FaradayCalculator
     // 2) Кривая намагничивания (простая линейка + насыщение)
     public static float ComputeM0(FaradayParams p, float H0)
     {
-        if (H0 >= p.Hsat) 
+        if (H0 >= p.Hsat)
         {
             return p.Msat;
         }
-        
+
         return p.Msat * (H0 / p.Hsat);
     }
 
@@ -35,7 +35,7 @@ public static class FaradayCalculator
         ComputeFrequencies(p, H0, out float f0, out float fm);
 
         // формулы (4.7) и (4.9)
-        muPlus  = 1f - fm / (f0 - f);
+        muPlus = 1f - fm / (f0 - f);
         muMinus = 1f - fm / (f0 + f);
     }
 
@@ -48,7 +48,7 @@ public static class FaradayCalculator
         float omega = 2f * Mathf.PI * fHz;
         float c = 3e8f;
 
-        float kPlus  = omega / c * Mathf.Sqrt(p.epsilonR * muPlus);
+        float kPlus = omega / c * Mathf.Sqrt(p.epsilonR * muPlus);
         float kMinus = omega / c * Mathf.Sqrt(p.epsilonR * muMinus);
 
         // θ = 0.5 * (k+ - k-) * l
