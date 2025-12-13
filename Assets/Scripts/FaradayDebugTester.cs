@@ -18,12 +18,18 @@ public class FaradayDebugTester : MonoBehaviour
 
     private InputSystem_Actions actions;
 
+    public TextMeshProUGUI amperText;
+    public TextMeshProUGUI generatorText;
+
+
     public TextMeshProUGUI debugText;   // главный UI-текст
     public Slider currentSlider;        // ползунок для тока
     public Slider hornSlider;           // ползунок для угла рупора
     public TextMeshProUGUI currentText; // текст рядом с ползунком тока
     public TextMeshProUGUI hornText;    // текст рядом с ползунком угла
     public Canvas debugCanvas;          // Canvas для скрытия/показа
+
+   
 
     private bool canvasVisible = true;
 
@@ -71,11 +77,11 @@ public class FaradayDebugTester : MonoBehaviour
         };
 
         // ======== ПОДПИСКИ НА ПОЛЗУНКИ ========
-        if (currentSlider != null)
+        /*if (currentSlider != null)
             currentSlider.onValueChanged.AddListener(val => testCurrent = val); // мышь сама изменяет значение
 
         if (hornSlider != null)
-            hornSlider.onValueChanged.AddListener(val => hornAngle = val);
+            hornSlider.onValueChanged.AddListener(val => hornAngle = val);*/
     }
 
     void OnEnable() => actions.Faraday.Enable();
@@ -116,5 +122,10 @@ public class FaradayDebugTester : MonoBehaviour
         // Текущие значения возле ползунков
         if (currentText != null) currentText.text = $"Ток: {testCurrent:F3} A";
         if (hornText != null) hornText.text = $"Рупор: {hornAngle:F1}°";
+
+        if (amperText != null) amperText.text = $"{testCurrent:F3} A";
+        if (generatorText != null) generatorText.text = $"{testCurrent:F3} A";
+        
+
     }
 }

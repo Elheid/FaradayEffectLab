@@ -15,6 +15,7 @@ public class FaradayParamsAlt
     public int receiverSwitch = 1;       // p_п - выключатель (0/1)
     public int multiplication = 1;       // n_x - умножение (1, 10, 100)
     
+    
     // Установка нуля
     public int zeroSettingSwitch = 0;    // p_ун - переключатель (0/1)
     public float zeroSettingLevel = 0.1f; // n_ун - уровень (0.04...0.15)
