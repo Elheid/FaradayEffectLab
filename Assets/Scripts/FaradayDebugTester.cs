@@ -129,3 +129,15 @@ public class FaradayDebugTester : MonoBehaviour
 
     }
 }
+/*
+
+Вкл/Выкл генератора Toggle или Button parameters.generatorSwitch
+Вкл/Выкл усилителя Toggle или Button parameters.receiverSwitch
+Сделано - Ток усилителя if (amperText != null) amperText.text = $"{testCurrent:F3} A";
+Ослабление на генераторе (дБ) Slider (0–60) parameters.attenuationDb
+Диапазон на усилителе (×1 / ×10) Toggle или Dropdown parameters.multiplication
+Кнопка "Уст. 0" на усилителе Button (однократное нажатие) вызывает parameters.zeroSettingSwitch = 1 (временно)
+Вроде не нужно?? - Режим невзаимности  на генераторе? Button или Toggle parameters.reverseMode
+Показания на шкале усилителя Text signal * parameters.multiplication
+*/
+

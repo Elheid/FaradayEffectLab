@@ -5,6 +5,9 @@ public static class FaradayCalculatorAlt
     // 1) Сигнал усилителя при угле рупора φ (альтернативная формула)
     public static float ComputeSignal(float hornAngleDeg, float betaDeg, FaradayParamsAlt p)
     {
+        if (p.generatorSwitch == 0 || p.receiverSwitch == 0)
+            return 0f;
+
         // U_г = 10^((40 - n_г)/20)
         float Ug = Mathf.Pow(10f, (40f - p.attenuationDb) / 20f);
     
