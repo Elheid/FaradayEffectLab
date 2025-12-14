@@ -14,13 +14,58 @@ public class FaradayParamsAlt
     public float receiverGain = 1f;      // n_п - усиление
     public int receiverSwitch = 1;       // p_п - выключатель (0/1)
     public int multiplication = 1;       // n_x - умножение (1, 10, 100)
-    
-    
-    // Установка нуля
-    public int zeroSettingSwitch = 0;    // p_ун - переключатель (0/1)
-    public float zeroSettingLevel = 0.1f; // n_ун - уровень (0.04...0.15)
 
     // Новые параметры
     public int reverseMode = 0; // 0 = прямое, 1 = обратное
     public float deltaADb = 15f; // разница ослаблений (10…20 дБ)
+
+    public void SetThetaInitial(float value)
+    {
+        thetaInitialDeg = Clamp(value, 110f, 130f);
+    }
+
+    public void SetAttenuationDb(float value)
+    {
+        attenuationDb = Clamp(value, 0f, 60f);
+    }
+
+    public void SetGeneratorSwitch(int value)
+    {
+        generatorSwitch = value == 0 ? 0 : 1;
+    }
+
+    public void SetReceiverGain(float value)
+    {
+        receiverGain = Math.Max(0f, value);
+    }
+
+    public void SetReceiverSwitch(int value)
+    {
+        receiverSwitch = value == 0 ? 0 : 1;
+    }
+
+    public void SetMultiplication(int value)
+    {
+        if (value == 1 || value == 10 || value == 100)
+            multiplication = value;
+        else
+            multiplication = 1;
+    }
+
+    public void SetReverseMode(int value)
+    {
+        reverseMode = value == 0 ? 0 : 1;
+    }
+
+    public void SetDeltaADb(float value)
+    {
+        deltaADb = Clamp(value, 10f, 20f);
+    }
+
+    private float Clamp(float value, float min, float max)
+    {
+        if (value < min) return min;
+        if (value > max) return max;
+        return value;
+    }
 }

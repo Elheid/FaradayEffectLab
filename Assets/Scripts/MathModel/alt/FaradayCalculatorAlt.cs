@@ -6,7 +6,9 @@ public static class FaradayCalculatorAlt
     public static float ComputeSignal(float hornAngleDeg, float betaDeg, FaradayParamsAlt p)
     {
         if (p.generatorSwitch == 0 || p.receiverSwitch == 0)
+        {
             return 0f;
+        }
 
         // U_г = 10^((40 - n_г)/20)
         float Ug = Mathf.Pow(10f, (40f - p.attenuationDb) / 20f);
@@ -23,13 +25,11 @@ public static class FaradayCalculatorAlt
             forwardFactor = Mathf.Pow(10f, -p.deltaADb / 20f);
         }
     
-        float Us = p.receiverSwitch *
-          (Ug * p.receiverGain * cosTerm * forwardFactor *
-          (1f - p.zeroSettingSwitch) *
-          (p.generatorSwitch / (float)p.multiplication)
-          + p.zeroSettingLevel);
-    
+         float Us = Ug * p.receiverGain * cosTerm * forwardFactor *
+         (p.generatorSwitch / (float)p.multiplication);
+
         Us = Mathf.Pow(Us, 2f) * 100f;
+
     
         return Us;
     }
