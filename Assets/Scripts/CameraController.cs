@@ -26,9 +26,12 @@ public class CameraController : MonoBehaviour
 
     void OnEnable()
     {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
         inputActions.Player.Enable();
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        /*Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;*/
     }
 
     void OnDisable()
@@ -61,7 +64,7 @@ public class CameraController : MonoBehaviour
     public void SetLock(bool locked)
     {
         isLocked = locked;
-        if (locked)
+        /*if (locked)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -70,7 +73,7 @@ public class CameraController : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-        }
+        }*/
     }
 
 }
