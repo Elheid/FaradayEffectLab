@@ -1,29 +1,32 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
 public enum InteractableType
 {
-    None,        // просто объект взаимодействия, без UI
-    PowerUnit,   // блок питания
-    Generator,   // СВЧ-генератор
-    Amplifier,   // измерительный усилитель
-    Horn         // рупор
+    None,        // РїСЂРѕСЃС‚Рѕ РѕР±СЉРµРєС‚ РІР·Р°РёРјРѕРґРµР№СЃС‚РІРёСЏ, Р±РµР· UI
+    PowerUnit,   // Р±Р»РѕРє РїРёС‚Р°РЅРёСЏ
+    Generator,   // РЎР’Р§-РіРµРЅРµСЂР°С‚РѕСЂ
+    Amplifier,   // РёР·РјРµСЂРёС‚РµР»СЊРЅС‹Р№ СѓСЃРёР»РёС‚РµР»СЊ
+    Horn         // СЂСѓРїРѕСЂ
 }
 
 
 public class InteractableObject : MonoBehaviour
 {
-    [Header("Тип объекта")]
+    [Header("РўРёРї РѕР±СЉРµРєС‚Р°")]
     public InteractableType interactableType = InteractableType.None;
 
-    [Header("Материал подсветки")]
+    [Header("РњР°С‚РµСЂРёР°Р» РїРѕРґСЃРІРµС‚РєРё")]
     public Material outlineMaterial;
 
     private Renderer[] renderers;
-    private Material[][] originalMaterials; // сохраняем материалы каждого рендера
+    private Material[][] originalMaterials; // СЃРѕС…СЂР°РЅСЏРµРј РјР°С‚РµСЂРёР°Р»С‹ РєР°Р¶РґРѕРіРѕ СЂРµРЅРґРµСЂР°
+
+    [Header("РџР°СЂР°РјРµС‚СЂ РїСЂРёР±Р»РёР¶РµРЅРёР№ Р±РѕР»СЊС€Рµ - РґР°Р»СЊС€Рµ")]
+    public float focusDistance = 0f;//0.009f;
 
     private void Awake()
     {
-        // находим все рендереры в объекте и дочерних объектах
+        // РЅР°С…РѕРґРёРј РІСЃРµ СЂРµРЅРґРµСЂРµСЂС‹ РІ РѕР±СЉРµРєС‚Рµ Рё РґРѕС‡РµСЂРЅРёС… РѕР±СЉРµРєС‚Р°С…
         renderers = GetComponentsInChildren<Renderer>();
         if (renderers.Length == 0)
         {
@@ -31,7 +34,7 @@ public class InteractableObject : MonoBehaviour
             return;
         }
 
-        // сохраняем оригинальные материалы
+        // СЃРѕС…СЂР°РЅСЏРµРј РѕСЂРёРіРёРЅР°Р»СЊРЅС‹Рµ РјР°С‚РµСЂРёР°Р»С‹
         originalMaterials = new Material[renderers.Length][];
         for (int i = 0; i < renderers.Length; i++)
         {
@@ -52,7 +55,7 @@ public class InteractableObject : MonoBehaviour
         {
             if (highlighted)
             {
-                // заменяем все материалы на outlineMaterial
+                // Р·Р°РјРµРЅСЏРµРј РІСЃРµ РјР°С‚РµСЂРёР°Р»С‹ РЅР° outlineMaterial
                 Material[] mats = new Material[renderers[i].materials.Length];
                 for (int j = 0; j < mats.Length; j++)
                     mats[j] = outlineMaterial;
@@ -61,7 +64,7 @@ public class InteractableObject : MonoBehaviour
             }
             else
             {
-                // возвращаем оригинальные материалы
+                // РІРѕР·РІСЂР°С‰Р°РµРј РѕСЂРёРіРёРЅР°Р»СЊРЅС‹Рµ РјР°С‚РµСЂРёР°Р»С‹
                 renderers[i].materials = originalMaterials[i];
             }
         }

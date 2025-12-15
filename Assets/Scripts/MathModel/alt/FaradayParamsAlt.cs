@@ -46,7 +46,7 @@ public class FaradayParamsAlt
 
     public void SetMultiplication(int value)
     {
-        if (value == 1 || value == 10 || value == 100)
+        if (value == 1 || value == 10 || value == 100 || value == 1000)
             multiplication = value;
         else
             multiplication = 1;

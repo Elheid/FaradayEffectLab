@@ -22,8 +22,12 @@ public class InteractionsManager : MonoBehaviour
     private Transform originalParent;
     public float minFocusDistance = 0.5f; // минимальное расстояние от камеры к центру объекта
     public float extraPadding = 1.05f; // немного расстояния, чтобы объект точно помещался
+    public float focusOffset = 0f; // отрицательное значение — ближе к камере
+
     private Quaternion originalRotation;
     private Vector3 originalEuler;
+
+    private bool eulerBackAfterFocus = true;
 
 
     private void Awake()
@@ -91,23 +95,28 @@ public class InteractionsManager : MonoBehaviour
             {
                 case InteractableType.PowerUnit:
                     DeviceUIManager.Instance.ShowPowerUnit();
+                    eulerBackAfterFocus = true;
                     break;
 
                 case InteractableType.Generator:
                     DeviceUIManager.Instance.ShowGenerator();
+                    eulerBackAfterFocus = true;
                     break;
 
                 case InteractableType.Amplifier:
                     DeviceUIManager.Instance.ShowAmplifier();
+                    eulerBackAfterFocus = true;
                     break;
 
                 case InteractableType.Horn:
                     DeviceUIManager.Instance.ShowHorn();
+                    eulerBackAfterFocus = false;
                     break;
 
                 case InteractableType.None:
                 default:
                     DeviceUIManager.Instance.HideAll();
+                    eulerBackAfterFocus = true;
                     break;
             }
         }
@@ -155,21 +164,38 @@ public class InteractionsManager : MonoBehaviour
     private IEnumerator MoveObjectToFront(InteractableObject obj)
     {
         // Найдём рендереры и bounds
-        Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
-        if (renderers == null || renderers.Length == 0)
+        //Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
+        //if (renderers == null || renderers.Length == 0)
+        //{
+        //    // Если рендереров нет — просто перемещаем к фиксированному месту перед камерой
+        //    yield return MoveDirect(obj, mainCamera.transform.position + mainCamera.transform.forward * minFocusDistance);
+        //    yield break;
+        //}
+
+        //// Объединяем bounds
+        //Bounds bounds = renderers[0].bounds;
+        //for (int i = 1; i < renderers.Length; i++)
+        //    bounds.Encapsulate(renderers[i].bounds);
+
+        //Vector3 boundsCenterWorld = bounds.center;
+        //float radius = bounds.extents.magnitude; // аппроксимация радиусом сферы
+
+        Collider[] colliders = obj.GetComponentsInChildren<Collider>();
+
+        if (colliders.Length == 0)
         {
-            // Если рендереров нет — просто перемещаем к фиксированному месту перед камерой
             yield return MoveDirect(obj, mainCamera.transform.position + mainCamera.transform.forward * minFocusDistance);
             yield break;
         }
 
-        // Объединяем bounds
-        Bounds bounds = renderers[0].bounds;
-        for (int i = 1; i < renderers.Length; i++)
-            bounds.Encapsulate(renderers[i].bounds);
+        Bounds bounds = colliders[0].bounds;
+        for (int i = 1; i < colliders.Length; i++)
+            bounds.Encapsulate(colliders[i].bounds);
 
         Vector3 boundsCenterWorld = bounds.center;
-        float radius = bounds.extents.magnitude; // аппроксимация радиусом сферы
+        float radius = bounds.extents.magnitude;
+
+
 
         // Рассчитываем расстояние, на котором объект полностью помещается в поле зрения камеры
         float fovRad = mainCamera.fieldOfView * Mathf.Deg2Rad;
@@ -185,10 +211,21 @@ public class InteractionsManager : MonoBehaviour
             requiredDistance = minFocusDistance;
         }
 
-        float desiredDistance = Mathf.Max(minFocusDistance, requiredDistance * extraPadding);
+        float desiredDistance = Mathf.Max(minFocusDistance, requiredDistance * extraPadding) - obj.focusDistance;
+
 
         // Точка в пространстве, куда хотим поместить центр bounds
         Vector3 targetCenterPos = mainCamera.transform.position + mainCamera.transform.forward * desiredDistance;
+
+
+        //Debug.DrawLine(mainCamera.transform.position, boundsCenterWorld, Color.red, 2f);
+
+        //Debug.DrawLine(boundsCenterWorld, boundsCenterWorld + Vector3.up * 0.2f, Color.red, 2f);
+
+        //Debug.DrawLine(obj.transform.position, obj.transform.position + Vector3.up * 0.2f, Color.green, 2f);
+
+        //Debug.DrawLine(mainCamera.transform.position, targetCenterPos, Color.blue, 2f);
+
 
         // Смещение, которое нужно применить объекту, чтобы его bounds.center оказался в targetCenterPos
         Vector3 translation = targetCenterPos - boundsCenterWorld;
@@ -257,8 +294,8 @@ public class InteractionsManager : MonoBehaviour
             // Возвращаем объект на место. Если сцена меняла позицию (например, объекты динамичны), то
             // лучше сохранить originalPosition и вернуть туда.
             currentFocus.transform.position = originalPosition;
-            currentFocus.transform.rotation = originalRotation;
-            currentFocus.transform.eulerAngles = originalEuler;
+            if (eulerBackAfterFocus) currentFocus.transform.rotation = originalRotation;
+            if(eulerBackAfterFocus) currentFocus.transform.eulerAngles = originalEuler;
             currentFocus.transform.parent = originalParent;
             currentFocus.SetHighlighted(false);
             currentFocus = null;

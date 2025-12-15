@@ -38,6 +38,23 @@ public class FaradayUIManager : MonoBehaviour
     public Toggle reverseModeToggle;       // Режим тракта (Прямой/Обратный)
     public TextMeshProUGUI reverseModeText;// Текстовое отображение режима
 
+
+    //Переключатели
+    [Header("Рычаги и переключатели")]
+    public RotaryKnob amplifierCircularAmplification;
+    public RotaryKnob generatorCircularAttenuation;
+    public RotaryKnob powerCircularCurrent;
+
+    public DiscretKnob amplifierCircularMulti;
+
+
+    public SwitchLever generatorSwitchLever;
+    public SwitchLever receiverSwitchLever;
+
+    public HornRotator horn;
+    //public SwitchLever setZeroSwitchLever;
+
+
     void Start()
     {
         // --- Инициализация слайдеров и переключателей ---
@@ -46,6 +63,7 @@ public class FaradayUIManager : MonoBehaviour
         currentSlider.onValueChanged.AddListener(value =>
         {
             experiment.currentSlider.value = value;
+            powerCircularCurrent.SetValue(value);
             RefreshUI();
         });
 
@@ -53,11 +71,13 @@ public class FaradayUIManager : MonoBehaviour
         generatorAttenuationSlider.onValueChanged.AddListener(value =>
         {
             experiment.parameters.SetAttenuationDb(value);
+            generatorCircularAttenuation.SetValue(value);
             RefreshUI();
         });
         generatorSwitchToggle.onValueChanged.AddListener(isOn =>
         {
             experiment.parameters.SetGeneratorSwitch(isOn ? 1 : 0);
+            generatorSwitchLever.SetState(isOn);
             RefreshUI();
         });
 
@@ -65,11 +85,13 @@ public class FaradayUIManager : MonoBehaviour
         receiverGainSlider.onValueChanged.AddListener(value =>
         {
             experiment.parameters.SetReceiverGain(value);
+            amplifierCircularAmplification.SetValue(value);
             RefreshUI();
         });
         receiverSwitchToggle.onValueChanged.AddListener(isOn =>
         {
             experiment.parameters.SetReceiverSwitch(isOn ? 1 : 0);
+            receiverSwitchLever.SetState(isOn);
             RefreshUI();
         });
 
@@ -94,14 +116,17 @@ public class FaradayUIManager : MonoBehaviour
                 case 0: val = 1; break;
                 case 1: val = 10; break;
                 case 2: val = 100; break;
+                case 3: val = 1000; break;
             }
             experiment.parameters.SetMultiplication(val);
+            amplifierCircularMulti.SetIndex(index);
             RefreshUI();
         });
 
         hornSlider.onValueChanged.AddListener(value =>
         {
             experiment.hornAngleDeg = value;
+            horn.SetAngle(value);
             RefreshUI();
         });
 
@@ -117,6 +142,7 @@ public class FaradayUIManager : MonoBehaviour
         setZeroButton.onClick.AddListener(() =>
         {
             experiment.SetZero();
+            
             RefreshUI();
         });
 
@@ -158,6 +184,7 @@ public class FaradayUIManager : MonoBehaviour
 
 
         // Множитель
+
         int mult = experiment.parameters.multiplication;
         switch (mult)
         {

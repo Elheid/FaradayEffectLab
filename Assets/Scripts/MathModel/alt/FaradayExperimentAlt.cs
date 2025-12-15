@@ -29,7 +29,7 @@ public class FaradayExperimentAlt : MonoBehaviour
         signalLevel = Mathf.Max(0f, rawSignal - zeroOffset);
 
         // Выводим для отладки
-        Debug.Log($"Beta: {betaAngle}, Signal: {signalLevel}");
+        //Debug.Log($"Beta: {betaAngle}, Signal: {signalLevel}");
     }
 
     // Генерация шума

@@ -53,7 +53,7 @@ public class CameraController : MonoBehaviour
 
         if (isLocked) return;
 
-
+        
         yaw += lookInput.x * lookSpeed;
         pitch -= lookInput.y * lookSpeed;
         pitch = Mathf.Clamp(pitch, -80f, 80f);
@@ -64,6 +64,7 @@ public class CameraController : MonoBehaviour
     public void SetLock(bool locked)
     {
         isLocked = locked;
+        
         /*if (locked)
         {
             Cursor.lockState = CursorLockMode.None;
