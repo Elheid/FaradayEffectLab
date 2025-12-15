@@ -8,11 +8,11 @@ public class FaradayParamsAlt
     
     // Генератор
     public float attenuationDb = 40f;    // n_г - ослабление
-    public int generatorSwitch = 1;      // p_г - выключатель (0/1)
+    public int generatorSwitch = 0;      // p_г - выключатель (0/1)
     
     // Приемник
     public float receiverGain = 1f;      // n_п - усиление
-    public int receiverSwitch = 1;       // p_п - выключатель (0/1)
+    public int receiverSwitch = 0;       // p_п - выключатель (0/1)
     public int multiplication = 1;       // n_x - умножение (1, 10, 100)
 
     // Новые параметры

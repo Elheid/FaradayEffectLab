@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class FaradayExperimentAlt : MonoBehaviour
 {
+    [SerializeField]
     public FaradayParamsAlt parameters;  // параметры для расчётов
     public Slider currentSlider;      // ползунок для регулировки тока
 

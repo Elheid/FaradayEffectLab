@@ -30,7 +30,7 @@ public class FaradayUIManager : MonoBehaviour
     public TextMeshProUGUI receiverGainText;
     public TextMeshProUGUI multiplicationText;
     public TextMeshProUGUI amplifierText;
-
+    public TextMeshProUGUI amplifierResultText;//signal
 
     [Header("Геометрия и тракт")]
     public TextMeshProUGUI hornText;       // Угол рупора
@@ -137,19 +137,24 @@ public class FaradayUIManager : MonoBehaviour
         generatorAttenuationSlider.value = experiment.parameters.attenuationDb;
         generatorSwitchToggle.isOn = experiment.parameters.generatorSwitch == 1;
         generatorText.text = $"Генератор: {(experiment.parameters.generatorSwitch == 1 ? "ВКЛ" : "ВЫКЛ")}";
-        attenuationText.text = $"Ослабление: {experiment.parameters.attenuationDb} дБ\n";
 
+        float value = experiment.parameters.attenuationDb;
+        float rounded = Mathf.Round(value * 1000f) / 1000f;
+
+        attenuationText.text = $"Ослабление: {rounded} –dB\n";
             //Текст на приборе
         generatorDeviceText.text = $"9150 MHz"; // фиксированная частота
-        attenuationDbText.text = $"{Mathf.Round(experiment.parameters.attenuationDb)} дБ";
+ 
+        attenuationDbText.text = $"{rounded} –dB";
         
 
 
         // --- Усилитель ---
         receiverGainSlider.value = experiment.parameters.receiverGain;
         receiverSwitchToggle.isOn = experiment.parameters.receiverSwitch == 1;
-            //Текст на приборе
+        //Текст на приборе
         amplifierText.text = $"{experiment.parameters.receiverGain * 100:F2}";
+        amplifierResultText.text = $"U:{experiment.signalLevel:F2}";
 
 
         // Множитель

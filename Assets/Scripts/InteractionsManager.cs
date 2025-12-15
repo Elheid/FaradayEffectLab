@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 public class InteractionsManager : MonoBehaviour
 {
     public static InteractionsManager Instance;
+    public static DeviceUIManager DeviceUIManager;
 
     public Camera mainCamera;
     public CameraController cameraController; // <-- новое поле
@@ -82,6 +83,46 @@ public class InteractionsManager : MonoBehaviour
 
     }
 
+
+    public void OpenUI(InteractableObject obj) {
+        if (DeviceUIManager.Instance != null)
+        {
+            switch (obj.interactableType)
+            {
+                case InteractableType.PowerUnit:
+                    DeviceUIManager.Instance.ShowPowerUnit();
+                    break;
+
+                case InteractableType.Generator:
+                    DeviceUIManager.Instance.ShowGenerator();
+                    break;
+
+                case InteractableType.Amplifier:
+                    DeviceUIManager.Instance.ShowAmplifier();
+                    break;
+
+                case InteractableType.Horn:
+                    DeviceUIManager.Instance.ShowHorn();
+                    break;
+
+                case InteractableType.None:
+                default:
+                    DeviceUIManager.Instance.HideAll();
+                    break;
+            }
+        }
+
+    }
+
+    public void CloseUI() {
+        if (DeviceUIManager.Instance != null)
+        {
+            DeviceUIManager.Instance.HideAll();
+        }
+    }
+
+
+
     public void FocusOnObject(InteractableObject obj)
     {
         if (isFocused || obj == null) return;
@@ -108,6 +149,7 @@ public class InteractionsManager : MonoBehaviour
         // Стартуем плавное перемещение
         if (moveCoroutine != null) StopCoroutine(moveCoroutine);
         moveCoroutine = StartCoroutine(MoveObjectToFront(obj));
+        OpenUI(obj);
     }
 
     private IEnumerator MoveObjectToFront(InteractableObject obj)
@@ -225,6 +267,7 @@ public class InteractionsManager : MonoBehaviour
         // Разблокируем камеру
         if (cameraController != null)
             cameraController.SetLock(false);
+        CloseUI();
     }
 
 

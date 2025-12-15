@@ -1,7 +1,20 @@
 using UnityEngine;
 
+public enum InteractableType
+{
+    None,        // просто объект взаимодействия, без UI
+    PowerUnit,   // блок питания
+    Generator,   // СВЧ-генератор
+    Amplifier,   // измерительный усилитель
+    Horn         // рупор
+}
+
+
 public class InteractableObject : MonoBehaviour
 {
+    [Header("Тип объекта")]
+    public InteractableType interactableType = InteractableType.None;
+
     [Header("Материал подсветки")]
     public Material outlineMaterial;
 
