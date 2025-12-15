@@ -25,9 +25,16 @@ public class FaradayExperimentAlt : MonoBehaviour
         // 2) Вычисляем сигнал на приемнике
         float rawSignal = FaradayCalculatorAlt.ComputeSignal(hornAngleDeg, betaAngle, parameters);
 
+        if (rawSignal > 90_000f)
+        {
+            signalLevel = 0f;
+        }
+        else
+        {
         rawSignal += GenerateNoise();
         signalLevel = Mathf.Max(0f, rawSignal - zeroOffset);
-
+        }
+        
         // Выводим для отладки
         //Debug.Log($"Beta: {betaAngle}, Signal: {signalLevel}");
     }
