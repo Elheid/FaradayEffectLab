@@ -7,7 +7,7 @@ public static class FaradayCalculatorAlt
     {
         if (p.generatorSwitch == 0 || p.receiverSwitch == 0)
         {
-            return 0f;
+            return 99_999f;
         }
 
         // U_г = 10^((40 - n_г)/20)
