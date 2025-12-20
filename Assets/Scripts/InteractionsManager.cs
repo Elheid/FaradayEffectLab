@@ -91,7 +91,8 @@ public class InteractionsManager : MonoBehaviour
     public void OpenUI(InteractableObject obj) {
         if (DeviceUIManager.Instance != null)
         {
-            switch (obj.interactableType)
+            DeviceUIManager.Instance.ShowUI(obj);
+            /*switch (obj.interactableType)
             {
                 case InteractableType.PowerUnit:
                     DeviceUIManager.Instance.ShowPowerUnit();
@@ -118,7 +119,10 @@ public class InteractionsManager : MonoBehaviour
                     DeviceUIManager.Instance.HideAll();
                     eulerBackAfterFocus = true;
                     break;
-            }
+            }*/
+            if (obj.interactableType == InteractableType.Horn)
+                eulerBackAfterFocus = false;
+            else eulerBackAfterFocus = true;
         }
 
     }

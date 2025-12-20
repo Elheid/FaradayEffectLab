@@ -1,22 +1,24 @@
-using UnityEngine;
+п»їusing UnityEngine;
+using System;
 
 public class DiscretKnob : MonoBehaviour
 {
     public Transform knobTransform;
 
-    [Header("Диапазон поворота")]
-    public float minAngle = -90;  // начальный угол (в градусах, вокруг Z)
-    public float maxAngle = 45f;   // конечный угол
+    [Header("Р”РёР°РїР°Р·РѕРЅ РїРѕРІРѕСЂРѕС‚Р°")]
+    public float minAngle = -90;
+    public float maxAngle = 45f;
 
-    [Header("Дискретность")]
-    [Min(1)] public int stepCount = 4; // количество позиций (минимум 1)
+    [Header("Р”РёСЃРєСЂРµС‚РЅРѕСЃС‚СЊ")]
+    [Min(1)] public int stepCount = 4;
 
-    // Кэшируем углы при старте или при изменении параметров (опционально)
+    public event Action<int> OnIndexChanged;
+
     private float[] _cachedAngles;
+    private int _currentIndex = -1;
 
     private void OnValidate()
     {
-        // Обновляем кэш в редакторе при изменении stepCount/min/max
         RecalculateAngles();
     }
 
@@ -27,25 +29,84 @@ public class DiscretKnob : MonoBehaviour
         {
             float t = stepCount > 1 ? (float)i / (stepCount - 1) : 0f;
             _cachedAngles[i] = Mathf.Lerp(minAngle, maxAngle, t);
-            //Debug.Log(_cachedAngles[i]);
-
         }
     }
 
+    // рџ”№ РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РўРћР›Р¬РљРћ РґР»СЏ РІРёР·СѓР°Р»СЊРЅРѕРіРѕ РѕР±РЅРѕРІР»РµРЅРёСЏ
     public void SetIndex(int index)
     {
-        if (knobTransform == null)
-        {
-            Debug.LogError("knobTransform не назначен!", this);
-            return;
-        }
+        if (knobTransform == null) return;
 
         if (_cachedAngles == null || _cachedAngles.Length != stepCount)
             RecalculateAngles();
 
         if (index < 0 || index >= _cachedAngles.Length) return;
 
-        knobTransform.localRotation = Quaternion.Euler(0f, -90f, _cachedAngles[index]);
+        _currentIndex = index;
+        knobTransform.localRotation =
+            Quaternion.Euler(0f, -90f, _cachedAngles[index]);
+    }
 
+    // рџ”№ Р’С‹Р·С‹РІР°С‚СЊ РўРћР›Р¬РљРћ РїСЂРё РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРѕРј РІРІРѕРґРµ (РєР»РёРє, drag Рё С‚.Рї.)
+    public void UserSetIndex(int index)
+    {
+        if (index == _currentIndex) return;
+
+        SetIndex(index);
+        OnIndexChanged?.Invoke(index);
     }
 }
+
+
+
+//using UnityEngine;
+
+//public class DiscretKnob : MonoBehaviour
+//{
+//    public Transform knobTransform;
+
+//    [Header("Р”РёР°РїР°Р·РѕРЅ РїРѕРІРѕСЂРѕС‚Р°")]
+//    public float minAngle = -90;  // РЅР°С‡Р°Р»СЊРЅС‹Р№ СѓРіРѕР» (РІ РіСЂР°РґСѓСЃР°С…, РІРѕРєСЂСѓРі Z)
+//    public float maxAngle = 45f;   // РєРѕРЅРµС‡РЅС‹Р№ СѓРіРѕР»
+
+//    [Header("Р”РёСЃРєСЂРµС‚РЅРѕСЃС‚СЊ")]
+//    [Min(1)] public int stepCount = 4; // РєРѕР»РёС‡РµСЃС‚РІРѕ РїРѕР·РёС†РёР№ (РјРёРЅРёРјСѓРј 1)
+
+//    // РљСЌС€РёСЂСѓРµРј СѓРіР»С‹ РїСЂРё СЃС‚Р°СЂС‚Рµ РёР»Рё РїСЂРё РёР·РјРµРЅРµРЅРёРё РїР°СЂР°РјРµС‚СЂРѕРІ (РѕРїС†РёРѕРЅР°Р»СЊРЅРѕ)
+//    private float[] _cachedAngles;
+
+//    private void OnValidate()
+//    {
+//        // РћР±РЅРѕРІР»СЏРµРј РєСЌС€ РІ СЂРµРґР°РєС‚РѕСЂРµ РїСЂРё РёР·РјРµРЅРµРЅРёРё stepCount/min/max
+//        RecalculateAngles();
+//    }
+
+//    private void RecalculateAngles()
+//    {
+//        _cachedAngles = new float[stepCount];
+//        for (int i = 0; i < stepCount; i++)
+//        {
+//            float t = stepCount > 1 ? (float)i / (stepCount - 1) : 0f;
+//            _cachedAngles[i] = Mathf.Lerp(minAngle, maxAngle, t);
+//            //Debug.Log(_cachedAngles[i]);
+
+//        }
+//    }
+
+//    public void SetIndex(int index)
+//    {
+//        if (knobTransform == null)
+//        {
+//            Debug.LogError("knobTransform РЅРµ РЅР°Р·РЅР°С‡РµРЅ!", this);
+//            return;
+//        }
+
+//        if (_cachedAngles == null || _cachedAngles.Length != stepCount)
+//            RecalculateAngles();
+
+//        if (index < 0 || index >= _cachedAngles.Length) return;
+
+//        knobTransform.localRotation = Quaternion.Euler(0f, -90f, _cachedAngles[index]);
+
+//    }
+//}

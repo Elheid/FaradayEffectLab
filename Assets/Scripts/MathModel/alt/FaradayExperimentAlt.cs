@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class FaradayExperimentAlt : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class FaradayExperimentAlt : MonoBehaviour
     public float signalLevel;    // показания усилителя
 
     private float zeroOffset = 0f; // сохранённый фон
+
+    public event Action OnSignalChanged;
+
 
     void Update()
     {
@@ -34,15 +38,18 @@ public class FaradayExperimentAlt : MonoBehaviour
         rawSignal += GenerateNoise();
         signalLevel = Mathf.Max(0f, rawSignal - zeroOffset);
         }
-        
+
+        OnSignalChanged?.Invoke(); // 🔥 событие уведомления
+
+
         // Выводим для отладки
-        //Debug.Log($"Beta: {betaAngle}, Signal: {signalLevel}");
+        //Debug.Log($"Signal: {signalLevel}");
     }
 
     // Генерация шума
     float GenerateNoise()
     {
-        return Random.Range(0.002f, 0.01f) * parameters.receiverGain;
+        return UnityEngine.Random.Range(0.0002f, 0.001f) * parameters.receiverGain;
     }
 
     // Установка 0
