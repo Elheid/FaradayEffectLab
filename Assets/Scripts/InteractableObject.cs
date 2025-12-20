@@ -22,7 +22,11 @@ public class InteractableObject : MonoBehaviour
     private Material[][] originalMaterials; // сохраняем материалы каждого рендера
 
     [Header("Параметр приближений больше - дальше")]
-    public float focusDistance = 0f;//0.009f;
+    public float focusDistance = 0.009f;//0.009f;
+    [Header("Focus Offset  Vector2(0.3f, 0f);  // правее Vector2(-0.3f, 0f); // левее")]
+    public Vector2 focusScreenOffset = Vector2.zero;//new Vector2(0.05f, 0.02f); // смещение вправо или влево
+    //focusScreenOffset = new Vector2(0.3f, 0f);  // правее
+    //focusScreenOffset = new Vector2(-0.3f, 0f); // левее
 
     private void Awake()
     {

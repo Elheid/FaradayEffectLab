@@ -215,7 +215,14 @@ public class InteractionsManager : MonoBehaviour
 
 
         // Точка в пространстве, куда хотим поместить центр bounds
-        Vector3 targetCenterPos = mainCamera.transform.position + mainCamera.transform.forward * desiredDistance;
+        //Vector3 targetCenterPos = mainCamera.transform.position + mainCamera.transform.forward * desiredDistance;
+        Transform cam = mainCamera.transform;
+
+        Vector3 targetCenterPos =
+            cam.position +
+            cam.forward * desiredDistance +
+            cam.right * obj.focusScreenOffset.x * desiredDistance +
+            cam.up * obj.focusScreenOffset.y * desiredDistance;
 
 
         //Debug.DrawLine(mainCamera.transform.position, boundsCenterWorld, Color.red, 2f);
