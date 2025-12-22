@@ -46,6 +46,14 @@ public class FaradayUIManager : MonoBehaviour
     public SwitchLever receiverSwitchLever;
     public HornRotator horn;
 
+    [Header("Лампы индикации")]
+    public Renderer amplifierOnLamp;
+    public Renderer powerOnLamp;
+
+    public Material lampOffMaterial;   // дефолтный
+    public Material lampOnMaterial;    // BrightRed или любой
+
+
     void Start()
     {
         if (experiment != null)
@@ -54,6 +62,8 @@ public class FaradayUIManager : MonoBehaviour
         InitUIFromExperiment();
         SubscribeUIEvents();
         RefreshTexts();
+
+        SubscribeLeverEvents(); //
 
     }
 
@@ -69,6 +79,10 @@ public class FaradayUIManager : MonoBehaviour
         reverseModeToggle.SetIsOnWithoutNotify(experiment.parameters.reverseMode == 1);
         generatorSwitchToggle.SetIsOnWithoutNotify(experiment.parameters.generatorSwitch == 1);
         receiverSwitchToggle.SetIsOnWithoutNotify(experiment.parameters.receiverSwitch == 1);
+
+        SetLamp(powerOnLamp, true);
+        SetLamp(amplifierOnLamp, experiment.parameters.receiverSwitch == 1);
+
     }
 
     // ---------- ПОДПИСКА ----------
@@ -92,13 +106,7 @@ public class FaradayUIManager : MonoBehaviour
         {
             experiment.parameters.SetGeneratorSwitch(isOn ? 1 : 0);
             generatorSwitchLever.SetState(isOn);
-            RefreshTexts();
-        });
-
-        receiverGainSlider.onValueChanged.AddListener(value =>
-        {
-            experiment.parameters.SetReceiverGain(value);
-            amplifierCircularAmplification.SetValue(value);
+            //SetLamp(powerOnLamp, isOn);
             RefreshTexts();
         });
 
@@ -106,9 +114,17 @@ public class FaradayUIManager : MonoBehaviour
         {
             experiment.parameters.SetReceiverSwitch(isOn ? 1 : 0);
             receiverSwitchLever.SetState(isOn);
+            SetLamp(amplifierOnLamp, isOn);
             RefreshTexts();
-            Debug.Log("Text redresh");
         });
+        receiverGainSlider.onValueChanged.AddListener(value =>
+        {
+            experiment.parameters.SetReceiverGain(value);
+            amplifierCircularAmplification.SetValue(value);
+            RefreshTexts();
+        });
+
+
 
         multiplicationDropdown.onValueChanged.AddListener(index =>
         {
@@ -157,7 +173,7 @@ public class FaradayUIManager : MonoBehaviour
 
         receiverText.text = $"Усилитель: {(experiment.parameters.receiverSwitch == 1 ? "ВКЛ" : "ВЫКЛ")}";
         receiverGainText.text = "Усиление";
-        multiplicationText.text = $"Множитель:{experiment.parameters.multiplication} ";
+        multiplicationText.text = $"Множитель";//:{experiment.parameters.multiplication} ";
 
         hornText.text = $"Угол рупора: {experiment.hornAngleDeg:F1}°";
         reverseModeText.text =
@@ -165,6 +181,40 @@ public class FaradayUIManager : MonoBehaviour
     }
 
     // ---------- ВСПОМОГАТЕЛЬНОЕ ----------
+
+    void SubscribeLeverEvents()
+    {
+        // Генератор
+        generatorSwitchLever.OnLeverSwitched += isOn =>
+        {
+            experiment.parameters.SetGeneratorSwitch(isOn ? 1 : 0);
+
+            generatorSwitchToggle.SetIsOnWithoutNotify(isOn);
+            //SetLamp(powerOnLamp, isOn);
+
+            RefreshTexts();
+        };
+
+        // Усилитель
+        receiverSwitchLever.OnLeverSwitched += isOn =>
+        {
+            experiment.parameters.SetReceiverSwitch(isOn ? 1 : 0);
+
+            receiverSwitchToggle.SetIsOnWithoutNotify(isOn);
+            SetLamp(amplifierOnLamp, isOn);
+
+            RefreshTexts();
+        };
+    }
+
+
+    void SetLamp(Renderer lamp, bool isOn)
+    {
+        if (lamp == null) return;
+        lamp.material = isOn ? lampOnMaterial : lampOffMaterial;
+    }
+
+
     int GetMultiplicationIndex()
     {
         return experiment.parameters.multiplication switch
@@ -172,7 +222,7 @@ public class FaradayUIManager : MonoBehaviour
             1 => 0,
             10 => 1,
             100 => 2,
-            //1000 => 3,
+            1000 => 3,
             _ => 0
         };
     }
@@ -184,7 +234,7 @@ public class FaradayUIManager : MonoBehaviour
             0 => 1,
             1 => 10,
             2 => 100,
-            //3 => 1000,
+            3 => 1000,
             _ => 1
         };
     }

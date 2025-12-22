@@ -6,5 +6,6 @@ public enum InteractableType
     PowerUnit,   // блок питания
     Generator,   // СВЧ-генератор
     Amplifier,   // измерительный усилитель
-    Horn         // рупор
+    Horn,         // рупор
+    Lever           //Рычаг
 }

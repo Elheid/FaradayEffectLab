@@ -19,32 +19,60 @@ public class FaradayExperimentAlt : MonoBehaviour
     public event Action OnSignalChanged;
 
 
-    void Update()
-    {
-        float currentA = currentSlider.value; // берём значение тока с ползунка
-        
-        // 1) Вычисляем угол β
-        betaAngle = FaradayCalculatorAlt.ComputeBeta(currentA, parameters.thetaInitialDeg);
-        
-        // 2) Вычисляем сигнал на приемнике
-        float rawSignal = FaradayCalculatorAlt.ComputeSignal(hornAngleDeg, betaAngle, parameters);
+    private float lastInvokeTime = 0f;
+private const float MIN_UPDATE_INTERVAL = 0.1f; // 10 раз в секунду
 
-        if (rawSignal > 90_000f)
-        {
-            signalLevel = 0f;
-        }
-        else
-        {
+void Update()
+{
+    float currentA = currentSlider.value;
+    
+    betaAngle = FaradayCalculatorAlt.ComputeBeta(currentA, parameters.thetaInitialDeg);
+    float rawSignal = FaradayCalculatorAlt.ComputeSignal(hornAngleDeg, betaAngle, parameters);
+
+    if (rawSignal > 90_000f)
+    {
+        signalLevel = 0f;
+    }
+    else
+    {
         rawSignal += GenerateNoise();
         signalLevel = Mathf.Max(0f, rawSignal - zeroOffset);
-        }
-
-        OnSignalChanged?.Invoke(); // 🔥 событие уведомления
-
-
-        // Выводим для отладки
-        //Debug.Log($"Signal: {signalLevel}");
     }
+
+    // Вызываем событие не чаще чем раз в MIN_UPDATE_INTERVAL секунд
+    if (Time.time - lastInvokeTime > MIN_UPDATE_INTERVAL)
+    {
+        lastInvokeTime = Time.time;
+        OnSignalChanged?.Invoke();
+    }
+}
+
+    //void Update()
+    //{
+    //    float currentA = currentSlider.value; // берём значение тока с ползунка
+        
+    //    // 1) Вычисляем угол β
+    //    betaAngle = FaradayCalculatorAlt.ComputeBeta(currentA, parameters.thetaInitialDeg);
+        
+    //    // 2) Вычисляем сигнал на приемнике
+    //    float rawSignal = FaradayCalculatorAlt.ComputeSignal(hornAngleDeg, betaAngle, parameters);
+
+    //    if (rawSignal > 90_000f)
+    //    {
+    //        signalLevel = 0f;
+    //    }
+    //    else
+    //    {
+    //        rawSignal += GenerateNoise();
+    //        signalLevel = Mathf.Max(0f, rawSignal - zeroOffset);
+    //    }
+
+    //    OnSignalChanged?.Invoke(); // 🔥 событие уведомления
+
+
+    //    // Выводим для отладки
+    //    //Debug.Log($"Signal: {signalLevel}");
+   // }
 
     // Генерация шума
     float GenerateNoise()
