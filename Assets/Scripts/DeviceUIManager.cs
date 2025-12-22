@@ -11,6 +11,10 @@ public class DeviceUIManager : MonoBehaviour
     public Canvas powerUnitCanvas;
     public Canvas amplifierCanvas;
 
+    [Header("UI panel")]
+    public GameObject panel;
+
+
     void Awake()
     {
         if (Instance == null)
@@ -22,6 +26,7 @@ public class DeviceUIManager : MonoBehaviour
     void Start()
     {
         HideAll();
+        panel.SetActive(false);
     }
 
     void Update()
@@ -34,33 +39,65 @@ public class DeviceUIManager : MonoBehaviour
 
     public void HideAll()
     {
-        generatorCanvas.enabled = false;
-        hornCanvas.enabled = false;
-        powerUnitCanvas.enabled = false;
-        amplifierCanvas.enabled = false;
+        generatorCanvas.gameObject.SetActive(false);
+        powerUnitCanvas.gameObject.SetActive(false);
+        amplifierCanvas.gameObject.SetActive(false);
+        hornCanvas.gameObject.SetActive(false);
+        panel.SetActive(false);
+    }
+    public void ShowPanel() {
+        panel.SetActive(true);
+    }
+
+    public void ShowUI(InteractableObject obj) {
+      
+        switch (obj.interactableType)
+        {
+            case InteractableType.PowerUnit:
+                ShowPowerUnit();
+                break;
+
+            case InteractableType.Generator:
+                ShowGenerator();
+                break;
+
+            case InteractableType.Amplifier:
+                ShowAmplifier();
+                break;
+
+            case InteractableType.Horn:
+                ShowHorn();
+                break;
+
+            case InteractableType.None:
+            default:
+                HideAll();
+                break;
+        }
+        ShowPanel();
     }
 
     public void ShowGenerator()
     {
         HideAll();
-        generatorCanvas.enabled = true;
+        generatorCanvas.gameObject.SetActive(true);
     }
 
     public void ShowHorn()
     {
         HideAll();
-        hornCanvas.enabled = true;
+        hornCanvas.gameObject.SetActive(true);
     }
 
     public void ShowPowerUnit()
     {
         HideAll();
-        powerUnitCanvas.enabled = true;
+        powerUnitCanvas.gameObject.SetActive(true);
     }
 
     public void ShowAmplifier()
     {
         HideAll();
-        amplifierCanvas.enabled = true;
+        amplifierCanvas.gameObject.SetActive(true);
     }
 }

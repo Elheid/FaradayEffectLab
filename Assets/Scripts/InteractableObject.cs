@@ -1,22 +1,10 @@
 ﻿using UnityEngine;
-
-public enum InteractableType
-{
-    None,        // просто объект взаимодействия, без UI
-    PowerUnit,   // блок питания
-    Generator,   // СВЧ-генератор
-    Amplifier,   // измерительный усилитель
-    Horn         // рупор
-}
-
+using System.Linq;
 
 public class InteractableObject : MonoBehaviour
 {
     [Header("Тип объекта")]
     public InteractableType interactableType = InteractableType.None;
-
-    [Header("Материал подсветки")]
-    public Material outlineMaterial;
 
     private Renderer[] renderers;
     private Material[][] originalMaterials; // сохраняем материалы каждого рендера
@@ -28,9 +16,22 @@ public class InteractableObject : MonoBehaviour
     //focusScreenOffset = new Vector2(0.3f, 0f);  // правее
     //focusScreenOffset = new Vector2(-0.3f, 0f); // левее
 
+   // private MaterialPropertyBlock propBlock;
+
+
+
+
+
     private void Awake()
     {
         // находим все рендереры в объекте и дочерних объектах
+        //propBlock = new MaterialPropertyBlock();
+
+        foreach (var outline in GetComponentsInChildren<Outline>())
+            outline.enabled = false; // выключаем подсветку у всех
+
+
+
         renderers = GetComponentsInChildren<Renderer>();
         if (renderers.Length == 0)
         {
@@ -53,24 +54,35 @@ public class InteractableObject : MonoBehaviour
 
     public void SetHighlighted(bool highlighted)
     {
-        if (renderers == null || renderers.Length == 0) return;
-
-        for (int i = 0; i < renderers.Length; i++)
-        {
-            if (highlighted)
-            {
-                // заменяем все материалы на outlineMaterial
-                Material[] mats = new Material[renderers[i].materials.Length];
-                for (int j = 0; j < mats.Length; j++)
-                    mats[j] = outlineMaterial;
-
-                renderers[i].materials = mats;
-            }
-            else
-            {
-                // возвращаем оригинальные материалы
-                renderers[i].materials = originalMaterials[i];
-            }
-        }
+        foreach (var outline in GetComponentsInChildren<Outline>())
+            outline.enabled = highlighted;
     }
+
+
+
+
+
+    //public void SetHighlighted(bool highlighted)
+    //{
+    //    if (renderers == null || renderers.Length == 0) return;
+
+    //    for (int i = 0; i < renderers.Length; i++)
+    //    {
+    //        if (highlighted)
+    //        {
+    //            // заменяем все материалы на outlineMaterial
+    //            Material[] mats = new Material[renderers[i].materials.Length];
+    //            for (int j = 0; j < mats.Length; j++)
+    //                mats[j] = outlineMaterial;
+
+    //            renderers[i].materials = mats;
+    //        }
+    //        else
+    //        {
+    //            // возвращаем оригинальные материалы
+    //            renderers[i].materials = originalMaterials[i];
+    //        }
+    //    }
+    //}
+
 }

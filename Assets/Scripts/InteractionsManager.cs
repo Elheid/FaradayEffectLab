@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 public class InteractionsManager : MonoBehaviour
 {
@@ -49,76 +50,222 @@ public class InteractionsManager : MonoBehaviour
     }
 
 
+    //private void Update()
+    //{
+    //    if (isFocused)
+    //    {
+    //        if (inputActions.Player.Cancel.WasPressedThisFrame()) // Escape
+    //        {
+    //            ExitFocusMode();
+    //        }
+    //        return;
+    //    }
+
+    //    Vector2 mousePos = inputActions.Player.PointerPosition.ReadValue<Vector2>();
+    //    Ray ray = mainCamera.ScreenPointToRay(mousePos);
+
+    //    RaycastHit hit;
+
+    //    InteractableObject newHovered = null;
+    //    if (Physics.Raycast(mainCamera.ScreenPointToRay(inputActions.Player.PointerPosition.ReadValue<Vector2>()), out hit, 100f))
+    //    {
+    //        // ищем скрипт на самом коллайдере или на родителях
+    //        newHovered = hit.collider.GetComponentInParent<InteractableObject>();
+    //    }
+    //    // Если под указателем другой объект — переключаем подсветку
+    //    if (newHovered != hoveredObject)
+    //    {
+    //        if (hoveredObject != null) hoveredObject.SetHighlighted(false);
+    //        hoveredObject = newHovered;
+    //        if (hoveredObject != null) hoveredObject.SetHighlighted(true);
+    //    }
+
+
+
+    //    if (inputActions.Player.LeftClick.WasPressedThisFrame())
+    //    {
+    //        if (Physics.Raycast(
+    //            mainCamera.ScreenPointToRay(inputActions.Player.PointerPosition.ReadValue<Vector2>()),
+    //            out hit,
+    //            100f))
+    //        {
+    //            // 1️⃣ СНАЧАЛА проверяем, не кликнули ли по рычагу
+    //            SwitchLever lever = hit.collider.GetComponentInParent<SwitchLever>();
+    //            if (lever != null)
+    //            {
+    //                lever.Toggle();
+    //                return; // ❗ ВАЖНО
+    //            }
+
+    //            // 2️⃣ Если не рычаг — ищем объект фокуса
+    //            InteractableObject obj = hit.collider.GetComponentInParent<InteractableObject>();
+    //            if (obj != null)
+    //            {
+    //                FocusOnObject(obj);
+    //            }
+    //        }
+    //    }
+
+
+    //}
+    //private void Update()
+    //{
+    //    // Escape работает всегда
+    //    if (isFocused && inputActions.Player.Cancel.WasPressedThisFrame())
+    //    {
+    //        ExitFocusMode();
+    //        return;
+    //    }
+
+    //    Vector2 mousePos = inputActions.Player.PointerPosition.ReadValue<Vector2>();
+    //    Ray ray = mainCamera.ScreenPointToRay(mousePos);
+
+    //    RaycastHit hit;
+
+    //    // --- Подсветка ТОЛЬКО если не в фокусе ---
+    //    if (!isFocused)
+    //    {
+    //        InteractableObject newHovered = null;
+
+    //        if (Physics.Raycast(ray, out hit, 100f))
+    //            newHovered = hit.collider.GetComponentInParent<InteractableObject>();
+
+    //        if (newHovered != hoveredObject)
+    //        {
+    //            if (hoveredObject != null) hoveredObject.SetHighlighted(false);
+    //            hoveredObject = newHovered;
+    //            if (hoveredObject != null) hoveredObject.SetHighlighted(true);
+    //        }
+    //    }
+    //    // --- Подсветка рычагов ---
+
+    //    if (hoveredObject != null)
+    //    {
+    //        if (isFocused && hoveredObject.interactableType == InteractableType.Lever) hoveredObject.SetHighlighted(true);
+    //        else hoveredObject.SetHighlighted(false);
+    //    }
+
+    //    // --- КЛИКИ РАБОТАЮТ ВСЕГДА ---
+    //    if (inputActions.Player.LeftClick.WasPressedThisFrame())
+    //    {
+    //        if (Physics.Raycast(ray, out hit, 100f))
+    //        {
+    //            // 1️⃣ Рычаг — всегда приоритет
+    //            SwitchLever lever = hit.collider.GetComponentInParent<SwitchLever>();
+    //            if (lever != null)
+    //            {
+    //                lever.Toggle();
+    //                return;
+    //            }
+
+    //            // 2️⃣ Фокус — только если НЕ в фокусе
+    //            if (!isFocused)
+    //            {
+    //                InteractableObject obj = hit.collider.GetComponentInParent<InteractableObject>();
+    //                if (obj != null)
+    //                    FocusOnObject(obj);
+    //            }
+    //        }
+    //    }
+    //}
+
+    private List<InteractableObject> hoveredObjects = new List<InteractableObject>();
+
     private void Update()
     {
-        if (isFocused)
-        {
-            if (inputActions.Player.Cancel.WasPressedThisFrame()) // Escape
-            {
-                ExitFocusMode();
-            }
-            return;
-        }
-
         Vector2 mousePos = inputActions.Player.PointerPosition.ReadValue<Vector2>();
         Ray ray = mainCamera.ScreenPointToRay(mousePos);
 
-        RaycastHit hit;
-
-        InteractableObject newHovered = null;
-        if (Physics.Raycast(mainCamera.ScreenPointToRay(inputActions.Player.PointerPosition.ReadValue<Vector2>()), out hit, 100f))
+        // --- 1️⃣ Escape всегда работает ---
+        if (isFocused && inputActions.Player.Cancel.WasPressedThisFrame())
         {
-            // ищем скрипт на самом коллайдере или на родителях
-            newHovered = hit.collider.GetComponentInParent<InteractableObject>();
-        }
-        // Если под указателем другой объект — переключаем подсветку
-        if (newHovered != hoveredObject)
-        {
-            if (hoveredObject != null) hoveredObject.SetHighlighted(false);
-            hoveredObject = newHovered;
-            if (hoveredObject != null) hoveredObject.SetHighlighted(true);
+            ExitFocusMode();
+            return;
         }
 
-        // Если есть объект под курсором — обработать клик
-        if (newHovered != null && inputActions.Player.LeftClick.WasPressedThisFrame())
+        // --- 2️⃣ Подсветка ---
+        if (!isFocused)
         {
-            FocusOnObject(newHovered);
+            // Не в фокусе: подсвечиваем только устройства под курсором
+            RaycastHit[] hits = Physics.RaycastAll(ray, 100f);
+            HashSet<InteractableObject> currentlyHit = new HashSet<InteractableObject>();
+
+            foreach (var hit in hits)
+            {
+                var obj = hit.collider.GetComponentInParent<InteractableObject>();
+                if (obj != null && obj.interactableType != InteractableType.Lever)
+                    currentlyHit.Add(obj);
+            }
+
+            // Включаем подсветку для новых объектов
+            foreach (var obj in currentlyHit)
+            {
+                if (!hoveredObjects.Contains(obj))
+                {
+                    obj.SetHighlighted(true);
+                    hoveredObjects.Add(obj);
+                }
+            }
+
+            // Выключаем подсветку для объектов, которых больше нет под курсором
+            for (int i = hoveredObjects.Count - 1; i >= 0; i--)
+            {
+                if (!currentlyHit.Contains(hoveredObjects[i]))
+                {
+                    hoveredObjects[i].SetHighlighted(false);
+                    hoveredObjects.RemoveAt(i);
+                }
+            }
+        }
+        else if (isFocused && currentFocus != null)
+        {
+            // В фокусе: подсвечиваем только рычаги внутри currentFocus
+            InteractableObject[] children = currentFocus.GetComponentsInChildren<InteractableObject>();
+            foreach (var obj in children)
+            {
+                if (obj != null)
+                    obj.SetHighlighted(obj.interactableType == InteractableType.Lever);
+            }
         }
 
+        // --- 3️⃣ Клики работают всегда ---
+        if (inputActions.Player.LeftClick.WasPressedThisFrame())
+        {
+            RaycastHit[] hits = Physics.RaycastAll(ray, 100f);
+
+            foreach (var hit in hits)
+            {
+                // 1️⃣ Рычаг — приоритет
+                SwitchLever lever = hit.collider.GetComponentInParent<SwitchLever>();
+                if (lever != null)
+                {
+                    lever.Toggle();
+                    return;
+                }
+
+                // 2️⃣ Фокус — только если не в фокусе
+                if (!isFocused)
+                {
+                    InteractableObject obj = hit.collider.GetComponentInParent<InteractableObject>();
+                    if (obj != null)
+                        FocusOnObject(obj);
+                }
+            }
+        }
     }
+
+
+
+
 
 
     public void OpenUI(InteractableObject obj) {
         if (DeviceUIManager.Instance != null)
         {
-            switch (obj.interactableType)
-            {
-                case InteractableType.PowerUnit:
-                    DeviceUIManager.Instance.ShowPowerUnit();
-                    eulerBackAfterFocus = true;
-                    break;
-
-                case InteractableType.Generator:
-                    DeviceUIManager.Instance.ShowGenerator();
-                    eulerBackAfterFocus = true;
-                    break;
-
-                case InteractableType.Amplifier:
-                    DeviceUIManager.Instance.ShowAmplifier();
-                    eulerBackAfterFocus = true;
-                    break;
-
-                case InteractableType.Horn:
-                    DeviceUIManager.Instance.ShowHorn();
-                    eulerBackAfterFocus = false;
-                    break;
-
-                case InteractableType.None:
-                default:
-                    DeviceUIManager.Instance.HideAll();
-                    eulerBackAfterFocus = true;
-                    break;
-            }
+            DeviceUIManager.Instance.ShowUI(obj);
+            if (obj.interactableType == InteractableType.Horn)
+                eulerBackAfterFocus = false;
+            else eulerBackAfterFocus = true;
         }
 
     }
