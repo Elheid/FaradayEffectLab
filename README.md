@@ -5,15 +5,6 @@
 [Документация к 4 лабораторной.pdf](https://github.com/user-attachments/files/23583368/1-4-51-66.pdf)
 
 
-
-
-
-<img width="919" height="528" alt="image" src="https://github.com/user-attachments/assets/155a8a1f-bd1a-418d-9b35-a469acebbcc8" />
-
-Функция приближения при нажатии на подсвеченный объект
-<img width="857" height="501" alt="image" src="https://github.com/user-attachments/assets/ee5052f6-b641-4bd3-b246-f713412c96d9" />
-
-
 Лабораторная созданная другой командой, для справки:
 https://qtpierogi.itch.io/electric-wave-lab
 
