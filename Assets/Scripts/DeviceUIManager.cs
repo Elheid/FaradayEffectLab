@@ -7,10 +7,10 @@ public class DeviceUIManager : MonoBehaviour
     public static DeviceUIManager Instance;
 
     [Header("Canvas устройств")]
-    public Canvas generatorCanvas;
-    public Canvas hornCanvas;
-    public Canvas powerUnitCanvas;
-    public Canvas amplifierCanvas;
+    public GameObject generatorCanvas;
+    public GameObject hornCanvas;
+    public GameObject powerUnitCanvas;
+    public GameObject amplifierCanvas;
 
     [Header("UI panel")]
     public GameObject panel;
