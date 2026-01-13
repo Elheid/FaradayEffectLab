@@ -7,5 +7,6 @@ public enum InteractableType
     Generator,   // СВЧ-генератор
     Amplifier,   // измерительный усилитель
     Horn,         // рупор
-    Lever           //Рычаг
+    Lever,           //Рычаг
+    Pinboard
 }

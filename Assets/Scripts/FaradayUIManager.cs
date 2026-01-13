@@ -163,7 +163,7 @@ public class FaradayUIManager : MonoBehaviour
         amperText.text = $"{experiment.currentSlider.value:F3} A";
         currentText.text = "Ток";
 
-        generatorText.text = $"Генератор: {(experiment.parameters.generatorSwitch == 1 ? "ВКЛ" : "ВЫКЛ")}";
+        generatorText.text = $"{(experiment.parameters.generatorSwitch == 1 ? "ВКЛ" : "ВЫКЛ")}";//Генератор: 
         attenuationText.text = "Ослабление";
         generatorDeviceText.text = "9150 MHz";
         attenuationDbText.text = $"{experiment.parameters.attenuationDb:F4}";
@@ -171,13 +171,13 @@ public class FaradayUIManager : MonoBehaviour
         amplifierText.text = $"{experiment.parameters.receiverGain * 100:F2}";//
         amplifierResultText.text = experiment.signalLevel.ToString("F4");//.ToString();//.ToString("F3");
 
-        receiverText.text = $"Усилитель: {(experiment.parameters.receiverSwitch == 1 ? "ВКЛ" : "ВЫКЛ")}";
+        receiverText.text = $"{(experiment.parameters.receiverSwitch == 1 ? "ВКЛ" : "ВЫКЛ")}";//Усилитель:
         receiverGainText.text = "Усиление";
         multiplicationText.text = $"Множитель";//:{experiment.parameters.multiplication} ";
 
-        hornText.text = $"Угол рупора: {experiment.hornAngleDeg:F1}°";
+        hornText.text = $"{experiment.hornAngleDeg:F1}°";
         reverseModeText.text =
-            $"Режим: {(experiment.parameters.reverseMode == 0 ? "Прямой" : "Обратный")}";
+            $"{(experiment.parameters.reverseMode == 0 ? "Прямой" : "Обратный")}";//Режим:
     }
 
     // ---------- ВСПОМОГАТЕЛЬНОЕ ----------
@@ -188,7 +188,6 @@ public class FaradayUIManager : MonoBehaviour
         generatorSwitchLever.OnLeverSwitched += isOn =>
         {
             experiment.parameters.SetGeneratorSwitch(isOn ? 1 : 0);
-
             generatorSwitchToggle.SetIsOnWithoutNotify(isOn);
             //SetLamp(powerOnLamp, isOn);
 

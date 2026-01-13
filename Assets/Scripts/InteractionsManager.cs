@@ -8,6 +8,9 @@ public class InteractionsManager : MonoBehaviour
     public static InteractionsManager Instance;
     public static DeviceUIManager DeviceUIManager;
 
+    [SerializeField] private CameraManager cameraManager;
+
+
     public Camera mainCamera;
     public CameraController cameraController; // <-- новое поле
     public float focusDistance = 2.0f;
@@ -243,7 +246,14 @@ public class InteractionsManager : MonoBehaviour
                     return;
                 }
 
-                // 2️⃣ Фокус — только если не в фокусе
+                InteractableObject pinboard = hit.collider.GetComponentInParent<InteractableObject>();
+                if (pinboard != null && pinboard.interactableType == InteractableType.Pinboard)
+                {
+                    cameraManager?.SwitchToTutorialCamera();
+                    return;
+                }
+
+                    // 2️⃣ Фокус — только если не в фокусе
                 if (!isFocused)
                 {
                     InteractableObject obj = hit.collider.GetComponentInParent<InteractableObject>();
